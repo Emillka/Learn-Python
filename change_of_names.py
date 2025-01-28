@@ -1,32 +1,26 @@
-def zmien_nazwy_zdjec(sciezka_katalogu):
+import os
 
-    if not os.path.exists(sciezka_katalogu):
-        print("Podana ścieżka katalogu nie istnieje.")
+def change_names_of_pictures(catalog_path):
+    if not os.path.exists(catalog_path):
+        print("The specified directory path does not exist.")
         return
 
-    lista_plikow = os.listdir(sciezka_katalogu)
+    file_list = os.listdir(catalog_path)
+    file_list.sort()
+    
+    numbering = 1
+    for old_name in file_list:
+        if not old_name.lower().endswith('.jpg'):
+            continue  # Skip non-JPG files
+        
+        new_name = f"{numbering}.jpg"
+        old_path = os.path.join(catalog_path, old_name)
+        new_path = os.path.join(catalog_path, new_name)
 
-    lista_plikow.sort()
+        os.rename(old_path, new_path)
+        numbering += 1
 
+    print("File names changed.")
 
-    numeracja = 1
-
-    for stary_nazwa in lista_plikow:
-
-        nowa_nazwa = f"{numeracja}.jpg"
-
-
-        stara_sciezka = os.path.join(sciezka_katalogu, stary_nazwa)
-        nowa_sciezka = os.path.join(sciezka_katalogu, nowa_nazwa)
-
-
-        os.rename(stara_sciezka, nowa_sciezka)
-
-
-        numeracja += 1
-
-    print("Zmieniono nazwy plików.")
-
-
-sciezka_katalogu = "tu wpisać ścieżkę do katalogu"
-zmien_nazwy_zdjec(sciezka_katalogu)
+catalog_path = "enter the path to the directory here"
+change_names_of_pictures(catalog_path)
